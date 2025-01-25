@@ -40,7 +40,7 @@ test_dataset = load_dataset("TakalaWang/AMI", split="test")
 predictions = []
 references = []
 for data in test_dataset:
-    transcript = data["transcript_with_speaker"]
+    transcript = data["dialog"]
     summary = generate_text(transcript)[0]
     summary = summary.split("### Summary:\n")[1].strip()
     

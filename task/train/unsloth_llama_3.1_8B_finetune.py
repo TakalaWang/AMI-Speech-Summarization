@@ -45,8 +45,8 @@ Summarize the following transcription in meeting scenario.
 
 EOS_TOKEN = tokenizer.eos_token # Must add EOS_TOKEN
 def formatting_prompts_func(examples):
-    transcripts = examples["transcript"]
-    summaries      = examples["summary"]
+    transcripts = examples["dialog"]
+    summaries      = examples["abstractive"]
     texts = []
     for transcript, summary in zip(transcripts, summaries):
         # Must add EOS_TOKEN, otherwise your generation will go on forever!

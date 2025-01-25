@@ -17,25 +17,26 @@ def main():
     split = get_split(os.path.join(DATA_ROOT, "split"))
     dataset = DatasetDict()
     for split_name in ["train", "valid", "test"]:
-        split_data = {
-            "abstractive": [],
-            "extractive": [],
-            "dialog": []
-        }
+        meeting_ids = []
+        abstractives = []
+        extractives = []
+        dialogs = []
         for meeting_id in split[split_name]:
+            meeting_ids.append(meeting_id)
             with open(os.path.join(DATA_ROOT, "abstractive", split_name, meeting_id), "r") as f:
                 abstractive = f.read()
             with open(os.path.join(DATA_ROOT, "extractive", split_name, meeting_id), "r") as f:
                 extractive = f.read()
             with open(os.path.join(DATA_ROOT, "dialog", split_name, meeting_id), "r") as f:
                 dialog = f.read()
-            split_data["abstractive"].append(abstractive)
-            split_data["extractive"].append(extractive)
-            split_data["dialog"].append(dialog)
+            abstractives.append(abstractive)
+            extractives.append(extractive)
+            dialogs.append(dialog)
         dataset[split_name] = Dataset.from_dict({
-            "abstractive": split_data["abstractive"],
-            "extractive": split_data["extractive"],
-            "dialog": split_data["dialog"]
+            "meeting_id": meeting_ids,
+            "abstractive": abstractives,
+            "extractive": extractives,
+            "dialog": dialogs
         })
     
     dataset.push_to_hub(REPO_ID, token=HF_TOKEN)
