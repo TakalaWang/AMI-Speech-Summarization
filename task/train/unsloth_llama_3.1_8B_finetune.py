@@ -1,5 +1,5 @@
+import os
 from unsloth import FastLanguageModel, is_bfloat16_supported
-import torch
 from trl import SFTTrainer
 from transformers import TrainingArguments
 from datasets import load_dataset
@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-max_seq_length = 6000 # Choose any! We auto support RoPE Scaling internally!
+max_seq_length = 8000 # Choose any! We auto support RoPE Scaling internally!
 dtype = None # None for auto detection. Float16 for Tesla T4, V100, Bfloat16 for Ampere+
 load_in_4bit = True # Use 4bit quantization to reduce memory usage. Can be False.
 
@@ -30,15 +30,14 @@ model = FastLanguageModel.get_peft_model(
     bias = "none",    # Supports any, but = "none" is optimized
     # [NEW] "unsloth" uses 30% less VRAM, fits 2x larger batch sizes!
     use_gradient_checkpointing = "unsloth", # True or "unsloth" for very long context
-    random_state = 3407,
     use_rslora = False,  # We support rank stabilized LoRA
     loftq_config = None, # And LoftQ
 )
 
 alpaca_prompt = """
-Summarize the following transcript in meeting scenario.
+Summarize the following transcription in meeting scenario.
 
-### Transcript:
+### Transcription:
 {}
 
 ### Summary:
@@ -53,13 +52,14 @@ def formatting_prompts_func(examples):
         # Must add EOS_TOKEN, otherwise your generation will go on forever!
         text = alpaca_prompt.format(transcript, summary) + EOS_TOKEN
         texts.append(text)
-    return { "text" : texts, }
+    return { "text" : texts }
 
 
-train_dataset = load_dataset("TakalaWang/AMI_WHISPER_ASR", split = "train")
+dataset = load_dataset("TakalaWang/AMI")
+train_dataset = dataset["train"]
 train_dataset = train_dataset.map(formatting_prompts_func, batched = True)
 
-eval_dataset = load_dataset("TakalaWang/AMI_WHISPER_ASR", split = "valid")
+eval_dataset = dataset["valid"]
 eval_dataset = eval_dataset.map(formatting_prompts_func, batched = True)
 
 

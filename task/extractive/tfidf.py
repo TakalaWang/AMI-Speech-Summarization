@@ -41,13 +41,12 @@ def main():
         os.makedirs(os.path.join(result_path, split_name), exist_ok=True)
         for meeting in split[split_name]:
             with open(os.path.join(dataset_path, "dialog", split_name, f"{meeting}"), "r") as f:
-                dialogs = f.read()
+                dialogs = f.read().replace("\n", " ")
             summary = tfidf(dialogs)
             with open(os.path.join(dataset_path, "extractive", split_name, f"{meeting}"), "r") as f:
-                extractive = f.read()
+                extractive = f.read().replace("\n", " ")
             with open(os.path.join(result_path, split_name, f"{meeting}"), "w") as f:
                 f.write(summary)
-            print(summary)
             predictions.append(summary)
             references.append(extractive)
             

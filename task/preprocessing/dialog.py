@@ -108,4 +108,4 @@ if __name__ == "__main__":
                     starttime = dialog['starttime']
                     dialog = dialog['dialog']
                     
-                    f.write(f"{name}: {dialog}\n")
+                    f.write(f"{dialog}\n")
