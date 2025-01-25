@@ -35,7 +35,7 @@ def generate_text( transcript):
     summary = tokenizer.batch_decode(output)
     return summary
 
-test_dataset = load_dataset("TakalaWang/AMI_WHISPER_ASR", split="test")
+test_dataset = load_dataset("TakalaWang/AMI", split="test")
 
 predictions = []
 references = []
