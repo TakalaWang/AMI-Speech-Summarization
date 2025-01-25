@@ -1,0 +1,19 @@
+# 環境變數
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 日誌
+logs/ 
+.DS_Store
+
+# data
+annotation/
+transcription_data/
+final_model/
+results/
+__pycache__/
+dataset
