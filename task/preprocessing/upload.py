@@ -38,7 +38,7 @@ def main():
             "dialog": split_data["dialog"]
         })
     
-    dataset.push_to_hub(REPO_ID, HF_TOKEN)
+    dataset.push_to_hub(REPO_ID, token=HF_TOKEN)
 
 if __name__ == "__main__":
     main()
