@@ -96,6 +96,6 @@ trainer = SFTTrainer(
 
 trainer_stats = trainer.train()
 
-model.push_to_hub("TakalaWang/unsloth2-llama-3.1-8B-finetune", token = os.getenv("HF_TOKEN")) # Online saving
-tokenizer.push_to_hub("TakalaWang/unsloth2-llama-3.1-8B-finetune", token = os.getenv("HF_TOKEN")) # Online saving
+model.push_to_hub("TakalaWang/unsloth-llama-3.1-8B-finetune", token = os.getenv("HF_TOKEN")) # Online saving
+tokenizer.push_to_hub("TakalaWang/unsloth-llama-3.1-8B-finetune", token = os.getenv("HF_TOKEN")) # Online saving
 
